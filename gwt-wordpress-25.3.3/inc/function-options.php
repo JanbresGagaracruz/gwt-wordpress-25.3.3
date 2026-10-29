@@ -51,16 +51,22 @@ class GOVPH
     'govph_acc_link_search' => '',
   );
 
-  public function __construct()
-  {
+
+public function __construct()
+{
     $this->options = get_option('govph_options');
-    // to avoid warnings, reinstatiate all arrays that does not exist
-    if(sizeof($this->options) > 0){
-      $this->options = array_merge($this->_default_options, $this->options);
+
+    // Ensure options is always an array
+    if (!is_array($this->options)) {
+        $this->options = array();
     }
 
+    // Merge saved options with defaults
+    $this->options = array_merge($this->_default_options, $this->options);
+
     $this->register_settings_fields();
-  }
+}
+
 
   public static function add_menu_page()
   {
